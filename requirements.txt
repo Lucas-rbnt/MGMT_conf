@@ -1,0 +1,13 @@
+opencv-python
+pydicom
+monai
+nibabel
+mclahe
+torch
+torchvision
+numpy 
+scipy
+einops
+captum
+tqdm
+loguru
