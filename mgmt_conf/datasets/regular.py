@@ -72,7 +72,6 @@ class UnimodalMGMTNiftiDataset(_BaseMGMTNiftiDataset):
         patient_id = super()._get_patient_id(idx)
         x = super()._prepare_nifti_volume(patient_id, self.modality)
         x = super()._preprocess(x)
-
         target = super()._get_target(idx)
 
         return torch.tensor(x).float(), torch.tensor(target)

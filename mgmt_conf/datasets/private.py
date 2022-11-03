@@ -59,7 +59,7 @@ class UnimodalMGMTPrivateDataset(_BaseMGMTPrivateDataset):
         Reads and returns the i-th data point in the dataset.
         """
         patient_id = super()._get_patient_id(idx)
-        print(patient_id)
+
         x = super()._prepare_private_volume(patient_id, self.modality)
         x = super()._preprocess(x)
 

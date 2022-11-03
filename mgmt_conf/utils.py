@@ -12,10 +12,11 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import tqdm
-import wandb
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader
+
+import wandb
 
 
 def prepare_dataframes(
@@ -116,13 +117,15 @@ def training_loop(
         Dict[str, List[float]] : dictionnary containing every metrics and informations about how the training went.
         Keys are: "lr" for learning rate, "roc_val", "train_loss", "val_loss", "train_acc", "val_acc".
     """
-    run = wandb.init(
-        project=project_name,
-        entity=entity,
-        name=prefix,
-        reinit=True,
-        config={"batch size": train_dataloader.batch_size},
-    )
+    if entity:
+        wandb_logging = True
+        run = wandb.init(
+            project=project_name,
+            entity=entity,
+            name=prefix,
+            reinit=True,
+            config={"batch size": train_dataloader.batch_size},
+        )
     best_acc = 0
     names = ["unmethylated", "methylated"]
     metrics = defaultdict(list)
@@ -195,19 +198,22 @@ def training_loop(
         metrics["val/roc"].append(auc_score)
         metrics["val/loss"].append(epoch_loss_val)
         metrics["val/acc"].append(epoch_acc_val.item())
-        logs = {k: v[-1] for k, v in metrics.items()}
-        logs.update(
-            {
-                "confusion_matrix": wandb.plot.confusion_matrix(
-                    probs=None,
-                    y_true=np.array(true_labels),
-                    preds=np.array([round(prediction) for prediction in predictions]),
-                    class_names=names,
-                )
-            }
-        )
+        if wandb_logging:
+            logs = {k: v[-1] for k, v in metrics.items()}
+            logs.update(
+                {
+                    "confusion_matrix": wandb.plot.confusion_matrix(
+                        probs=None,
+                        y_true=np.array(true_labels),
+                        preds=np.array(
+                            [round(prediction) for prediction in predictions]
+                        ),
+                        class_names=names,
+                    )
+                }
+            )
 
-        wandb.log(logs, step=epoch)
+            wandb.log(logs, step=epoch)
         scheduler.step(epoch_loss_val)
         print(
             f"Val Loss: {epoch_loss_val} Acc: {epoch_acc_val:.4f} AUC Score:"
@@ -219,7 +225,8 @@ def training_loop(
                 model.state_dict(),
                 path_to_save,
             )
-    run.finish()
+    if wandb_logging:
+        run.finish()
 
     return model, metrics
 

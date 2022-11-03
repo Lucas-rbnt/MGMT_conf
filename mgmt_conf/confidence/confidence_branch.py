@@ -7,8 +7,9 @@ import numpy as np
 # Third-party libraries
 import torch
 import torch.nn.functional as F
-import wandb
 from tqdm import tqdm
+
+import wandb
 
 
 def test(model, loader, device, is_intermediate):
@@ -65,17 +66,19 @@ def train(
     entity,
     name,
 ):
-    run = wandb.init(
-        project=project_name,
-        entity=entity,
-        name=name,
-        reinit=True,
-        config={
-            "batch size": train_loader.batch_size,
-            "lambda": lmbda,
-            "budget": budget,
-        },
-    )
+    if entity:
+        wandb_logging = True
+        run = wandb.init(
+            project=project_name,
+            entity=entity,
+            name=name,
+            reinit=True,
+            config={
+                "batch size": train_loader.batch_size,
+                "lambda": lmbda,
+                "budget": budget,
+            },
+        )
     best_acc = 0.0
     for epoch in range(epochs):
         model.train()
@@ -141,19 +144,21 @@ def train(
             model, val_loader, device, is_intermediate
         )
         scheduler.step(loss_clf)
-        wandb.log(
-            {
-                "train/acc": accuracy,
-                "train/loss_supervised": xentropy_loss_avg / len(train_loader.dataset),
-                "train/loss_confidence": confidence_loss_avg
-                / len(train_loader.dataset),
-                "learning_rate": optimizer.state_dict()["param_groups"][0]["lr"],
-                "val/acc": test_acc,
-                "conf_min": conf_min,
-                "conf_max": conf_max,
-                "conf_avg": conf_avg,
-            }
-        )
+        if wandb_logging:
+            wandb.log(
+                {
+                    "train/acc": accuracy,
+                    "train/loss_supervised": xentropy_loss_avg
+                    / len(train_loader.dataset),
+                    "train/loss_confidence": confidence_loss_avg
+                    / len(train_loader.dataset),
+                    "learning_rate": optimizer.state_dict()["param_groups"][0]["lr"],
+                    "val/acc": test_acc,
+                    "conf_min": conf_min,
+                    "conf_max": conf_max,
+                    "conf_avg": conf_avg,
+                }
+            )
         tqdm.write(
             "test_acc: %.3f, conf_min: %.3f, conf_max: %.3f, conf_avg: %.3f"
             % (test_acc, conf_min, conf_max, conf_avg)
@@ -161,5 +166,5 @@ def train(
         if test_acc > best_acc:
             best_acc = test_acc
             torch.save(model.state_dict(), path_to_save)
-
-    run.finish()
+    if wandb_logging:
+        run.finish()

@@ -142,7 +142,6 @@ def load_partial_mri(
         glob.glob(os.path.join(full_path, "*.dcm")),
         key=lambda x: int(x.split("-")[-1][:-4]),
     )
-
     volume = load_single_file(
         dicom_filepaths[startpoint],
         target_size=target_size,
@@ -208,7 +207,7 @@ def clahe(x: np.ndarray) -> np.ndarray:
 
     x = mc.mclahe(
         x,
-        kernel_size=[1, 1, 1],
+        kernel_size=[32, 32, 8],
         n_bins=128,
         clip_limit=0.05,
         adaptive_hist_range=False,

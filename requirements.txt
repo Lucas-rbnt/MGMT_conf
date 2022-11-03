@@ -11,3 +11,4 @@ einops
 captum
 tqdm
 loguru
+matplotlib

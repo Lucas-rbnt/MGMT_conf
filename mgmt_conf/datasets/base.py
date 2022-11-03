@@ -113,8 +113,8 @@ class _BaseMGMTDataset(Dataset):
             self.image_size[1] * 1.0 / width,
             self.depth * 1 / depth,
         ]
-        x = ndimage.zoom(x, scale, order=3)
 
+        x = ndimage.zoom(x, scale, order=3)
         x = clahe(x)
         x = normalize_intensity(x)
         if self.augment:
