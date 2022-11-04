@@ -202,7 +202,8 @@ class MultimodalTumorCenteredMGMTPrivateDataset(MultimodalMGMTPrivateDataset):
         super(MultimodalTumorCenteredMGMTPrivateDataset, self).__init__(
             base_path=base_path,
             dataframe=dataframe,
-            modality=modalities,
+            modalities=modalities,
+            fusion="early",
             image_size=None,
             depth=None,
         )

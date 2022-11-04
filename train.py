@@ -38,7 +38,7 @@ if __name__ == "__main__":
     parser.add_argument("--tumor_centered", type=str, default="False", help="Whether or not to use segmentation mask to isolate the tumor.")
     parser.add_argument("--random_state", type=int, default=42, help="Seed for training and data splitting.")
     parser.add_argument("--n_cpus", type=int, default=20, help="Number of cpus available for data processing.")
-    parser.add_argument("--n_gpus", type=int, default=4, help="Number of gpus available for model training.")
+    parser.add_argument("--n_gpus", type=int, default=1, help="Number of gpus available for model training.")
     parser.add_argument("--lmbda", type=float, default=0.1, help="Lambda value for confidence loss.")
     parser.add_argument("--budget", type=float, default=0.3, help="Budget regularisation.")
     args = parser.parse_args()
