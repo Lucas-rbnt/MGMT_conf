@@ -28,7 +28,7 @@ if __name__ == "__main__":
     parser.add_argument("--data_type", help="Data format, can be either dicom or nifti.", default="nifti", type=str)
     parser.add_argument("--epochs", type=int, default=30, help="Number of epochs.")
     parser.add_argument("--path_to_save", type=str, required=True, help="Where to save torch models.")
-    parser.add_argument("--modalities", nargs='+', type=Union[str, List[str]], default=["FLAIR", "T1wCE"], help="Modality or modalities to use. For example, to use FLAIR only, do in your cli: --modalities FLAIR. To use both FLAIR and T1wCE, do: --modalities FLAIR T1wCE.")
+    parser.add_argument("--modalities", nargs='+', default=["FLAIR", "T1wCE"], help="Modality or modalities to use. For example, to use FLAIR only, do in your cli: --modalities FLAIR. To use both FLAIR and T1wCE, do: --modalities FLAIR T1wCE.")
     parser.add_argument("--lr", type=float, default=1e-5, help="Learning rate.")
     parser.add_argument("--fusion_type", default="early", type=str, help="Whether to use early or intermediate fusion.")
     parser.add_argument("--entity", default=None, type=Optional[str], help="If provided, entity name for wandb logger.")
@@ -139,4 +139,4 @@ if __name__ == "__main__":
     else:
         _, _ = training_loop(model=model, train_dataloader=train_dataloader, val_dataloader=val_dataloader, criterion=criterion, optimizer=optimizer, scheduler=scheduler, device=device, epochs=args.epochs, path_to_save=os.path.join(args.path_to_save, args.data_type, "regular", f"{args.fusion_type}_{'-'.join(args.modalities)}_tumor_centered_{args.tumor_centered}.pth"), entity=args.entity, prefix= os.path.join("RegularTraining", '-'.join(args.modalities), f"resnet_intermediate_{is_intermediate}_{args.fusion_type}"), project_name=args.project_name, is_intermediate=is_intermediate)
             
-        logger.info("End training on {} MRI scans", args.modalities)
+    logger.info("End training on {} MRI scans", args.modalities)

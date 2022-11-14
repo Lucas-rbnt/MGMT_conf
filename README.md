@@ -8,13 +8,15 @@ To use this repository, it is highly recommended to create a dedicated python 3.
 For instance, in you may run in your terminal:
 
 ```
-$ conda install python=3.9 mgmt
+$ conda create python=3.9 --name mgmt
+$ conda activate mgmt
 ```
 
 Then, to install all requirements:
 
 ```
 $ cd MGMT_conf/
+$ pip install --upgrade https://github.com/VincentStimper/mclahe/archive/numpy.zip
 $ pip install -r requirements.txt
 ```
 

@@ -79,6 +79,8 @@ def train(
                 "budget": budget,
             },
         )
+    else:
+        wandb_logging = False
     best_acc = 0.0
     for epoch in range(epochs):
         model.train()

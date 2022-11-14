@@ -126,6 +126,8 @@ def training_loop(
             reinit=True,
             config={"batch size": train_dataloader.batch_size},
         )
+    else:
+        wandb_logging = False
     best_acc = 0
     names = ["unmethylated", "methylated"]
     metrics = defaultdict(list)

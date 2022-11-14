@@ -1,8 +1,7 @@
 opencv-python
 pydicom
-monai
+monai==0.8.1
 nibabel
-mclahe
 torch
 torchvision
 numpy 
@@ -12,3 +11,5 @@ captum
 tqdm
 loguru
 matplotlib
+pandas
+scikit-learn
