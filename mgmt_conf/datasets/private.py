@@ -147,7 +147,9 @@ class UnimodalTumorCenteredMGMTPrivateDataset(UnimodalMGMTPrivateDataset):
         depth (int) : the depth to which volumes are resized.
     """
 
-    def __init__(self, base_path, dataframe, modality):
+    def __init__(
+        self, base_path: str, dataframe: "pd.DataFrame", modality: str  # noqa
+    ) -> None:
         """
         Class constructor.
 
@@ -164,7 +166,7 @@ class UnimodalTumorCenteredMGMTPrivateDataset(UnimodalMGMTPrivateDataset):
             depth=None,
         )
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx: int) -> Tuple[torch.tensor, torch.tensor]:
         """
         Reads and returns the i-th data point in the dataset.
         """
@@ -190,7 +192,12 @@ class MultimodalTumorCenteredMGMTPrivateDataset(MultimodalMGMTPrivateDataset):
         depth (int) : the depth to which volumes are resized.
     """
 
-    def __init__(self, base_path, dataframe, modalities):
+    def __init__(
+        self,
+        base_path: str,
+        dataframe: "pd.DataFrame",  # noqa
+        modalities: Tuple[str, ...],
+    ) -> None:
         """
         Class constructor.
 
@@ -208,7 +215,7 @@ class MultimodalTumorCenteredMGMTPrivateDataset(MultimodalMGMTPrivateDataset):
             depth=None,
         )
 
-    def __getitem__(self, idx: int):
+    def __getitem__(self, idx: int) -> Tuple[torch.tensor, torch.tensor]:
         """
         Reads and returns the i-th data point in the dataset.
         """

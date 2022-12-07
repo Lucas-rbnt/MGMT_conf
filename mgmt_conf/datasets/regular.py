@@ -256,7 +256,7 @@ class MultimodalMGMTDicomDataset(_BaseMGMTDicomDataset):
         )
         self.modalities = modalities
 
-    def __getitem__(self, idx) -> Tuple[Dict[str, torch.tensor], torch.tensor]:
+    def __getitem__(self, idx: int) -> Tuple[Dict[str, torch.tensor], torch.tensor]:
         """
         Reads and returns the i-th data point in the dataset.
         """

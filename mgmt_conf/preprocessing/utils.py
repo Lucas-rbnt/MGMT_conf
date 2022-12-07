@@ -24,8 +24,6 @@ __all__ = [
     "random_noise",
     "random_flip",
     "random_rotate",
-    "display_scans_cut",
-    "create_animation",
 ]
 
 
@@ -277,64 +275,3 @@ def random_noise(x: np.ndarray, mean: float = 0.0, std: float = 0.01) -> np.ndar
         np.ndarray : the perturbed array.
     """
     return x + np.random.normal(mean, std, x.shape)
-
-
-def display_scans_cut(
-    base_path: str,
-    patient_id: int,
-    methylation: bool,
-    cutoff: float = 0.5,
-    scans: Tuple[str] = ("FLAIR", "T1w", "T1wCE", "T2w"),
-    target_size: Optional[Tuple[int]] = None,
-    voi_lut: bool = True,
-) -> None:
-    fig, ax = plt.subplots(1, 4, figsize=(20, 15))
-    for i, scan in enumerate(scans):
-        full_path = os.path.join(base_path, str(patient_id).zfill(5), scan)
-        dicom_filepaths = sorted(
-            glob.glob(os.path.join(full_path, "*.dcm")),
-            key=lambda x: int(x.split("-")[-1][:-4]),
-        )
-        imag = load_single_file(
-            dicom_filepaths[int(cutoff * len(dicom_filepaths))],
-            target_size=target_size,
-            voi_lut=voi_lut,
-        )
-        ax[i].imshow(imag, cmap="gray")
-        ax[i].set_title(scan)
-        ax[i].axis("off")
-
-    plt.suptitle(f"MGMT promoter methylation: {methylation}", fontsize=16, y=0.7)
-    plt.show()
-
-
-def create_animation(
-    base_path: str,
-    patient_id: int,
-    scan: str,
-    methylation: bool,
-    target_size: Optional[Tuple[int]] = None,
-    voi_lut: bool = True,
-) -> animation.ArtistAnimation:
-    """
-    Full credit for this function to ayushn https://www.kaggle.com/code/ayushn2000/eda-primary
-    """
-    fig = plt.figure(figsize=(15, 12))
-    full_scan = load_complete_mri(
-        base_path, patient_id, scan, target_size=target_size, voi_lut=voi_lut
-    )
-    ims = []
-    for snapshot in range(0, full_scan.shape[0]):
-        im = plt.imshow(full_scan[snapshot, :, :], animated=True, cmap="gray")
-        plt.axis("off")
-        ims.append([im])
-
-    plt.title(
-        f"Patient ID : {str(patient_id).zfill(5)} - MRI : {scan} - Methylation :"
-        f" {bool(methylation)}"
-    )
-    ani = animation.ArtistAnimation(
-        fig, ims, interval=100, blit=False, repeat_delay=1000
-    )
-    plt.close()
-    return ani
