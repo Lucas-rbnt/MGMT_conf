@@ -71,7 +71,7 @@ Otherwise, entity is set as `None` by default. Training progression will be disp
 
 ### Citation
 ============
-
+```
 @article{robinet_deep_mgmt,
 author = {Robinet, Lucas and Siegfried, Aurore and Roques, Margaux and Berjaoui, Ahmad and Cohen-Jonathan Moyal, Elizabeth},
 title = {MRI-Based Deep Learning Tools for MGMT Promoter Methylation Detection: A Thorough Evaluation},
@@ -84,3 +84,4 @@ url = {https://www.mdpi.com/2072-6694/15/8/2253},
 issn = {2072-6694},
 doi = {10.3390/cancers15082253}
 }
+```
