@@ -70,7 +70,7 @@ $ python train.py .... --entity MyCoolWandbNickname
 Otherwise, entity is set as `None` by default. Training progression will be displayed directly in your console.
 
 ### Citation
-============
+==========
 ```
 @article{robinet_deep_mgmt,
 author = {Robinet, Lucas and Siegfried, Aurore and Roques, Margaux and Berjaoui, Ahmad and Cohen-Jonathan Moyal, Elizabeth},
