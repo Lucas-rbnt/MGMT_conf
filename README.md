@@ -1,7 +1,7 @@
 # Once and for All! MRI-Based Deep Learning Tools for MGMT Promoter Methylation Detection: a Thorough Evaluation
 =========================================================================
 
-This repository contains the source code associated to the proposed paper.
+This repository contains the source code associated to the proposed paper [MRI-Based Deep Learning Tools for MGMT Promoter Methylation Detection: A Thorough Evaluation](https://www.mdpi.com/2072-6694/15/8/2253).
 
 To use this repository, it is highly recommended to create a dedicated python 3.9 environment.
 
@@ -68,3 +68,19 @@ $ python train.py .... --entity MyCoolWandbNickname
 ```
 
 Otherwise, entity is set as `None` by default. Training progression will be displayed directly in your console.
+
+### Citation
+============
+
+@article{robinet_deep_mgmt,
+author = {Robinet, Lucas and Siegfried, Aurore and Roques, Margaux and Berjaoui, Ahmad and Cohen-Jonathan Moyal, Elizabeth},
+title = {MRI-Based Deep Learning Tools for MGMT Promoter Methylation Detection: A Thorough Evaluation},
+journal = {Cancers},
+volume = {15},
+year = {2023},
+number = {8},
+article-number = {2253},
+url = {https://www.mdpi.com/2072-6694/15/8/2253},
+issn = {2072-6694},
+doi = {10.3390/cancers15082253}
+}
